@@ -30,6 +30,33 @@ resource "aws_dynamodb_table" "data_soruce_table" {
   }
 }
 
+# add conditional addition for this. 
+resource "aws_dynamodb_table_item" "demo_item" {
+  table_name = aws_dynamodb_table.data_soruce_table.name
+  hash_key   = aws_dynamodb_table.data_soruce_table.hash_key
+
+  item = <<EOF
+  {
+    "id": {
+      "S": "h123"
+    },
+    "createdBy": {
+      "S": "unclebob"
+    },
+    "email": {
+      "S": "yo@yoyo.com"
+    },
+    "firstName": {
+      "S": "bob"
+    },
+    "lastName": {
+      "S": "uncle"
+    }
+  }
+  EOF
+}
+
+
 resource "aws_appsync_datasource" "data_source" { # datasource of dynamodb
   api_id           = var.appsync_id
   name             = "${var.datasource_name}_data_source"
